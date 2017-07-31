@@ -1,0 +1,21 @@
+{
+  "manifest_version": 2,
+  "name": "Corser",
+  "version": "0.0.1",
+  "description": "Allows to manage cors restrictions",
+	"background":{
+		"scripts": [
+			"main.js"
+		]
+	},
+	"permissions": [
+		"storage",
+		"webRequest",
+		"webRequestBlocking",
+    "<all_urls>"
+	],
+	"options_ui": {
+		"browser_style": true,
+		"page": "options.html"
+	}
+}

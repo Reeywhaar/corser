@@ -1,0 +1,43 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Corser Options</title>
+	<style>
+		.options{
+			padding: 5px;
+		}
+		.rules{
+			width: 100%;
+			min-height: 10em;
+			resize: vertical;
+			margin-bottom: .5em;
+		}
+		.actions{
+			display: flex;
+			flex-direction: row;
+			justify-content: flex-end;
+		}
+	</style>
+</head>
+<body>
+	<div class="options">
+		<div class="tip">
+			<p>* Disclaimer</p>
+			<p>- Rules must be array of rules separated by newline</p>
+			<p>- Each rule is object of two fields: origins, domains</p>
+			<p>- both "origins" and "domains" are arrays of url patterns described at <a href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns">Match Patterns page</a></p>
+			<p>- format: [origins] - [domains]</p>
+			<p>- example:<pre>  *://mozilla.com|*://mozilla.com/ - *://exaple.com|*://example.com/*</pre></p>
+		</div>
+		<div class="content">
+			<textarea class="rules"></textarea>
+		</div>
+		<div class="actions">
+			<button class="save-button">Save</button>
+		</div>
+	</div>
+	<script src="options.js"></script>
+</body>
+</html>
