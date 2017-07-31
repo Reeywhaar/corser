@@ -13,6 +13,7 @@
 			min-height: 10em;
 			resize: vertical;
 			margin-bottom: .5em;
+			white-space: pre;
 		}
 		.actions{
 			display: flex;
@@ -25,11 +26,23 @@
 	<div class="options">
 		<div class="tip">
 			<p>* Disclaimer</p>
-			<p>- Rules must be array of rules separated by newline</p>
-			<p>- Each rule is object of two fields: origins, domains</p>
-			<p>- both "origins" and "domains" are arrays of url patterns described at <a href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns">Match Patterns page</a></p>
-			<p>- format: [origins] - [domains]</p>
-			<p>- example:<pre>  *://mozilla.com|*://mozilla.com/ - *://exaple.com|*://example.com/*</pre></p>
+			<p>- Config must be array of rules separated by newline</p>
+			<p>- Each rule is object of two arrays: origins, domains</p>
+			<p>- both "origins" and "domains" are arrays of url patterns described at <a href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns">Match Patterns page</a> separated by newline</p>
+			<p>- example:<p>
+			<pre>
+*://mozilla.com
+*://mozilla.com/
+-
+*://example.com
+*://example.com/*
+
+*://mozilla.org
+*://mozilla.org/
+-
+*://example.org
+*://example.org/*
+			</pre>
 		</div>
 		<div class="content">
 			<textarea class="rules"></textarea>

@@ -8,7 +8,7 @@ async function setRules(rules){
 	await browser.storage.local.set({"rules": rules});
 }
 
-function db(str){
+function dbg(str){
 	console.log(str);
 	return str;
 }
@@ -16,15 +16,15 @@ function db(str){
 function RulesSerializer(){};
 RulesSerializer.serialize = function(rules){
 	return rules.map(x => {
-		return `${x.origins.join("|")} - ${x.domains.join("|")}`
+		return `${x.origins.join("\n")}\n-\n${x.domains.join("\n")}`
 	}).join("\n");
 };
 RulesSerializer.unserialize = function(text){
-	return text.split("\n").filter(line => line.length > 0).map(line => {
-		const [matchesString, domainsString] = line.split(" - ");
+	return text.split(/\n{2,}/).filter(line => line.length > 0).map(line => {
+		const [matchesString, domainsString] = line.split("\n-\n");
 		return {
-			origins: matchesString.split("|"),
-			domains: domainsString.split("|"),
+			origins: matchesString.split("\n"),
+			domains: domainsString.split("\n"),
 		};
 	});
 };
