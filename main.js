@@ -22,18 +22,18 @@ function testMultipleRegexp(obj, ...regexps){
 
 function matchPatternToRegExp(pattern) {
 	const matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/(\*|(?:\*\.)?[^\/\*]+|)\/(.*))$/i);
-  if (pattern === '<all_urls>') {
-    return (/^(?:https?|file|ftp|app):\/\//);
-  }
-  const match = matchPattern.exec(pattern);
-  if (!match) {
-    throw new TypeError(`"${ pattern }" is not a valid MatchPattern`);
-  }
+	if (pattern === '<all_urls>') {
+		return (/^(?:https?|file|ftp|app):\/\//);
+	}
+	const match = matchPattern.exec(pattern);
+	if (!match) {
+		throw new TypeError(`"${ pattern }" is not a valid MatchPattern`);
+	}
 	const [ , scheme, host, path, ] = match;
-  return new RegExp('^(?:'
-    + (scheme === '*' ? 'https?' : escape(scheme)) +':\/\/'
-    + (host === '*' ? '[^\/]+?' : escape(host).replace(/^\*/g, '(?:[^\/]+?.)?'))
-    + (path ? '\/'+ escape(path).replace(/\*/g, '.*') : '\/?')
+	return new RegExp('^(?:'
+		+ (scheme === '*' ? 'https?' : escape(scheme)) +':\/\/'
+		+ (host === '*' ? '[^\/]+?' : escape(host).replace(/^\*/g, '(?:[^\/]+?.)?'))
+		+ (path ? '\/'+ escape(path).replace(/\*/g, '.*') : '\/?')
 	+')$');
 }
 
