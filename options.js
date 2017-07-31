@@ -8,6 +8,13 @@ async function setRules(rules){
 	await browser.storage.local.set({"rules": rules});
 }
 
+function isPattern(pattern) {
+	const matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/(\*|(?:\*\.)?[^\/\*]+|)\/(.*))$/i);
+	if (pattern === '<all_urls>') return true;
+	const match = matchPattern.exec(pattern);
+	return !!match;
+}
+
 function dbg(str){
 	console.log(str);
 	return str;
@@ -27,10 +34,17 @@ RulesSerializer.serialize = function(rules){
 RulesSerializer.unserialize = function(text){
 	return text.split(/\n{2,}/).filter(line => line.length > 0).map(line => {
 		const [matchesString, domainsString] = line.split("\n-\n");
-		return {
+		const data = {
 			origins: matchesString.split("\n"),
 			domains: domainsString.split("\n"),
-		};
+		}
+		data.origins.forEach(x => {
+			if(!isPattern(x)) throw new Error("Invalid Format");
+		});
+		data.domains.forEach(x => {
+			if(!isPattern(x)) throw new Error("Invalid Format");
+		});
+		return data;
 	});
 };
 
