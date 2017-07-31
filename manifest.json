@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Corser",
-  "version": "0.0.2",
+  "version": "0.0.5",
 	"description": "Allows to manage cors restrictions",
 	"author": "Mikhail Vyrtsev",
 	"developer": {
@@ -22,5 +22,11 @@
 	"options_ui": {
 		"browser_style": true,
 		"page": "options.html"
+	},
+	"applications": {
+		"gecko": {
+			"id": "{a7984014-36a1-484d-b759-435643728580}",
+			"strict_min_version": "54.0"
+		}
 	}
 }
