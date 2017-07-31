@@ -58,20 +58,21 @@ async function main(){
 
 	browser.webRequest.onHeadersReceived.addListener((e)=>{
 		for(let rule of data.rules){
-			if(testMultipleRegexp(e.originUrl, ...rule.origins) && testMultipleRegexp(e.url, ...rule.domains)){
+			if(testMultipleRegexp(e.documentUrl, ...rule.origins) && testMultipleRegexp(e.url, ...rule.domains)){
+				console.log(e);
 				const frameHeader = first(e.responseHeaders, (x)=>{
 					return x.name === "x-frame-options";
 				});
 				const corsHeader = first(e.responseHeaders, (x)=>{
 					return x.name === "access-control-allow-origin";
 				});
-				frameHeader.value = `ALLOW-FROM ${e.originUrl}`;
+				frameHeader.value = `ALLOW-FROM ${e.documentUrl}`;
 				if (corsHeader) {
-					corsHeader.value = `${e.originUrl}`;
+					corsHeader.value = `${e.documentUrl}`;
 				} else {
 					e.responseHeaders.push({
 						name: "access-control-allow-origin",
-						value: `${e.originUrl}`,
+						value: `${e.documentUrl}`,
 					});
 				};
 				return {responseHeaders: e.responseHeaders};

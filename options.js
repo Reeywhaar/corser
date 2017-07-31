@@ -22,7 +22,7 @@ function RulesSerializer(){};
 RulesSerializer.serialize = function(rules){
 	return rules.map(x => {
 		return `${x.origins.join("\n")}\n-\n${x.domains.join("\n")}`
-	}).join("\n");
+	}).join("\n\n");
 };
 RulesSerializer.unserialize = function(text){
 	return text.split(/\n{2,}/).filter(line => line.length > 0).map(line => {

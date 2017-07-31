@@ -6,7 +6,7 @@ build:
 	web-ext build --ignore-files ${ignore_files}
 
 run:
-	web-ext run
+	web-ext run --bc
 
 sign:
 	source .env && web-ext sign --api-key ${APIKEY} --api-secret ${APISECRET} --ignore-files ${ignore_files}
