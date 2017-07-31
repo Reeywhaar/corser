@@ -13,6 +13,11 @@ function dbg(str){
 	return str;
 }
 
+function notify(str){
+	const n = document.querySelector(".notification");
+	n.innerHTML = str;
+}
+
 function RulesSerializer(){};
 RulesSerializer.serialize = function(rules){
 	return rules.map(x => {
@@ -34,8 +39,14 @@ async function main(){
 	const area = document.querySelector(".rules");
 	area.value = RulesSerializer.serialize(await getRules());
 	saveButton.addEventListener("click", async e => {
-		const rules = RulesSerializer.unserialize(area.value);
-		await setRules(rules);
+		try{
+			const rules = RulesSerializer.unserialize(area.value);
+			await setRules(rules);
+			notify("Rules saved");
+		} catch (e) {
+			notify("Config parsing failed. Save aborted");
+			return;
+		}
 	});
 }
 
