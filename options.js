@@ -22,7 +22,7 @@ function dbg(str){
 
 function notify(str){
 	const n = document.querySelector(".notification");
-	n.innerHTML = str;
+	n.innerText = str;
 }
 
 function RulesSerializer(){};
