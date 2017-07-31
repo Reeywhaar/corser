@@ -59,22 +59,22 @@ async function main(){
 	browser.webRequest.onHeadersReceived.addListener((e)=>{
 		for(let rule of data.rules){
 			if(testMultipleRegexp(e.originUrl, ...rule.origins) && testMultipleRegexp(e.url, ...rule.domains)){
-					const frameHeader = first(e.responseHeaders, (x)=>{
-						return x.name === "x-frame-options";
+				const frameHeader = first(e.responseHeaders, (x)=>{
+					return x.name === "x-frame-options";
+				});
+				const corsHeader = first(e.responseHeaders, (x)=>{
+					return x.name === "access-control-allow-origin";
+				});
+				frameHeader.value = `ALLOW-FROM ${e.originUrl}`;
+				if (corsHeader) {
+					corsHeader.value = `${e.originUrl}`;
+				} else {
+					e.responseHeaders.push({
+						name: "access-control-allow-origin",
+						value: `${e.originUrl}`,
 					});
-					const corsHeader = first(e.responseHeaders, (x)=>{
-						return x.name === "access-control-allow-origin";
-					});
-					frameHeader.value = `ALLOW-FROM ${e.originUrl}`;
-					if (corsHeader) {
-						corsHeader.value = `${e.originUrl}`;
-					} else {
-						e.responseHeaders.push({
-							name: "access-control-allow-origin",
-							value: `${e.originUrl}`,
-						});
-					};
-					return {responseHeaders: e.responseHeaders};
+				};
+				return {responseHeaders: e.responseHeaders};
 			};
 		};
 	}, {urls: ["<all_urls>"]}, ["responseHeaders", "blocking"]);
