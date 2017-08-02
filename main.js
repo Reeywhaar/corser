@@ -59,7 +59,6 @@ async function main(){
 	browser.webRequest.onHeadersReceived.addListener((e)=>{
 		for(let rule of data.rules){
 			if(testMultipleRegexp(e.documentUrl, ...rule.origins) && testMultipleRegexp(e.url, ...rule.domains)){
-				console.log(e);
 				const frameHeader = first(e.responseHeaders, (x)=>{
 					return x.name === "x-frame-options";
 				});
