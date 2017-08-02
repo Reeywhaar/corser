@@ -7,6 +7,8 @@ Corser WebExtension make it possible to:
 
 **Use of this extension is intended for people who understand what they want to achieve. Otherwise it may compromise your security.**
 
+[Install from addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/corser/)
+
 ### Usage
 
 Imagine we want to allow of embedding some iframe page of domain which denies embedding it pages.
