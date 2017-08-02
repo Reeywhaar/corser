@@ -26,7 +26,7 @@ If you want another rule just separate it by double newline.
 
 ### TODO
 
-* Right now extension was tested only in firefox. Chrome and Opera in plans.
+* Right now extension was tested only in Firefox. Chrome and Opera in plans.
 
 ### Developing
 
