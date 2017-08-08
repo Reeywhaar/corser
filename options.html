@@ -24,29 +24,43 @@
 			flex-direction: row;
 			justify-content: flex-end;
 		}
+		.rules-list{
+			list-style-position: outside;
+			margin:0;
+			padding: 10px;
+		}
+		.hint{
+			font-style: italic;
+			color:rgba(0,0,0,.3);
+			font-size: .8em;
+		}
 	</style>
 </head>
 <body>
 	<div class="options">
 		<div class="tip">
-			<p>* Disclaimer</p>
-			<p>- Config must be array of rules separated by newline</p>
-			<p>- Each rule is object of two arrays: origins, domains</p>
-			<p>- both "origins" and "domains" are arrays of url patterns described at <a href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns">Match Patterns page</a> separated by newline</p>
-			<p>- example:<p>
-			<pre>
-*://mozilla.com
-*://mozilla.com/
--
-*://example.com
-*://example.com/*
-
+			<h3>Usage</h3>
+			<ul class="rules-list">
+				<li>Config must be array of rules separated by newline</li>
+				<li>Each rule is object of two arrays: origins, domains separated by "-"</li>
+				<li>both "origins" and "domains" are arrays of url patterns described at <a href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns">Match Patterns page</a> separated by newline</li>
+				<li>
+					example:
+					<pre>
+*://mozilla.com <span class="hint">origin url</span>
+*://mozilla.com/ <span class="hint">additional origin url</span>
+- <span class="hint">origin and domains urls are separated by "-"</span>
+*://example.com <span class="hint">target domain url</span>
+*://example.com/* <span class="hint">additional target domain url</span>
+<span class="hint">rules are separated by double newline</span>
 *://mozilla.org
 *://mozilla.org/
 -
 *://example.org
 *://example.org/*
-			</pre>
+					</pre>
+				</li>
+			</ul>
 		</div>
 		<div class="content">
 			<textarea class="rules"></textarea>

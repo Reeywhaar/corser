@@ -1,15 +1,13 @@
-function first(arr, fn){
-	for(let i of arr){
-		if(fn(i)) return i;
-	};
-	return null;
-}
-
-function firstIndex(arr, fn){
+function findIndex(arr, fn){
 	for(let i = 0; i < arr.length; i++){
 		if(fn(arr[i])) return i;
 	}
 	return null;
+}
+
+function find(arr, fn){
+	const index = findIndex(arr, fn);
+	return index === null ? null : arr[index];
 }
 
 function testMultipleRegexp(obj, ...regexps){
@@ -59,14 +57,17 @@ async function main(){
 	browser.webRequest.onHeadersReceived.addListener((e)=>{
 		for(let rule of data.rules){
 			if(testMultipleRegexp(e.documentUrl, ...rule.origins) && testMultipleRegexp(e.url, ...rule.domains)){
-				const frameHeader = first(e.responseHeaders, (x)=>{
-					return x.name === "x-frame-options";
-				});
-				const corsHeader = first(e.responseHeaders, (x)=>{
-					return x.name === "access-control-allow-origin";
-				});
-				frameHeader.value = `ALLOW-FROM ${e.documentUrl}`;
-				if (corsHeader) {
+				const frameHeader = find(e.responseHeaders, x => x.name === "x-frame-options" );
+				const corsHeader = find(e.responseHeaders, x => x.name === "access-control-allow-origin" );
+				if(frameHeader){
+					frameHeader.value = `ALLOW-FROM ${e.documentUrl}`;
+				} else {
+					e.responseHeaders.push({
+						name: "x-frame-options",
+						value: `ALLOW-FROM ${e.documentUrl}`,
+					});
+				};
+				if(corsHeader){
 					corsHeader.value = `${e.documentUrl}`;
 				} else {
 					e.responseHeaders.push({
