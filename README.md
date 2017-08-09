@@ -15,9 +15,9 @@ Imagine we want to allow of embedding some iframe page of domain which denies em
 Then after installing in options page we must paste the following sample config
 
 <pre>
-*://ourwebpagewherewewantiframetoshow.com/*
+*://our-web-page-where-we-want-iframe-to-show.com/*
 -
-*://domainwhichrestrictsiframeusage.com/*
+*://domain-which-restricts-iframe-usage.com/*
 </pre>
 
 `-` is a separator between origin urls and match urls
