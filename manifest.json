@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Corser",
-  "version": "0.0.10",
+  "version": "0.0.11",
 	"description": "Allows to manage cors restrictions",
 	"author": "Mikhail Vyrtsev",
 	"developer": {
