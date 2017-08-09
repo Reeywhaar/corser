@@ -68,11 +68,11 @@ async function main(){
 					});
 				};
 				if(corsHeader){
-					corsHeader.value = `${e.documentUrl}`;
+					corsHeader.value = `*`;
 				} else {
 					e.responseHeaders.push({
 						name: "access-control-allow-origin",
-						value: `${e.documentUrl}`,
+						value: `*`,
 					});
 				};
 				return {responseHeaders: e.responseHeaders};
