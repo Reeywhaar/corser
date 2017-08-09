@@ -39,10 +39,10 @@ RulesSerializer.unserialize = function(text){
 			domains: domainsString.split("\n"),
 		}
 		data.origins.forEach(x => {
-			if(!isPattern(x)) throw new Error("Invalid Format");
+			if(!isPattern(x)) throw new Error(`Parse Error: "${x}" is invalid origin`);
 		});
 		data.domains.forEach(x => {
-			if(!isPattern(x)) throw new Error("Invalid Format");
+			if(!isPattern(x)) throw new Error(`Parse Error: "${x}" is invalid target`);
 		});
 		return data;
 	});
@@ -58,7 +58,11 @@ async function main(){
 			await setRules(rules);
 			notify("Rules saved");
 		} catch (e) {
-			notify("Config parsing failed. Save aborted");
+			if(e.message.indexOf("Parse Error:") === 0){
+				notify(`Config parsing failed: \n${e.message}`);
+			} else {
+				notify(`Config parsing failed. Save aborted`);
+			};
 			return;
 		}
 	});
