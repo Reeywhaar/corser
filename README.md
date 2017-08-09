@@ -14,9 +14,11 @@ Corser WebExtension make it possible to:
 Imagine we want to allow of embedding some iframe page of domain which denies embedding it pages.
 Then after installing in options page we must paste the following sample config
 
-> \*://ourwebpagewherewewantiframetoshow.com/*
-> \-
-> \*://domainwhichrestrictsiframeusage.com/*
+<pre>
+*://ourwebpagewherewewantiframetoshow.com/*
+-
+*://domainwhichrestrictsiframeusage.com/*
+</pre>
 
 `-` is a separator between origin urls and match urls
 
