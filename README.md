@@ -3,7 +3,7 @@
 Corser WebExtension make it possible to:
 
 * allows cross-domain request with sites which deny CORS in their headers
-* allows insertion of iframe by modifying x-frame-options header
+* allows embedding iframe of domain which restricts it by x-frame-options header
 
 **Usage of this extension is intended for people who understand what they want to achieve. Otherwise it may compromise your security.**
 
