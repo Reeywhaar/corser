@@ -17,6 +17,17 @@ function testMultipleRegexp(obj, ...regexps){
 	return false;
 }
 
+function filterTargets(rules){
+	return rules
+	.reduce((carry, rule)=>{
+		return carry.concat(rule.domainsOriginal);
+	},[])
+	.reduce((carry, rule)=>{
+		if(carry.indexOf(rule) === -1) carry.push(rule);
+		return carry;
+	}, []);
+}
+
 
 function matchPatternToRegExp(pattern) {
 	const matchPattern = (/^(?:(\*|http|https|file|ftp|app):\/\/(\*|(?:\*\.)?[^\/\*]+|)\/(.*))$/i);
@@ -27,7 +38,7 @@ function matchPatternToRegExp(pattern) {
 	if (!match) {
 		throw new TypeError(`"${ pattern }" is not a valid MatchPattern`);
 	}
-	const [ , scheme, host, path, ] = match;
+	const [, scheme, host, path] = match;
 	return new RegExp('^(?:'
 		+ (scheme === '*' ? 'https?' : escape(scheme)) +':\/\/'
 		+ (host === '*' ? '[^\/]+?' : escape(host).replace(/^\*/g, '(?:[^\/]+?.)?'))
@@ -39,6 +50,7 @@ async function getRules(){
 	const stored = await browser.storage.local.get("rules");
 	if(!stored.rules) return [];
 	return stored.rules.map(item => {
+		item.domainsOriginal = item.domains;
 		item.origins = item.origins.map(x => matchPatternToRegExp(x));
 		item.domains = item.domains.map(x => matchPatternToRegExp(x));
 		return item;
@@ -50,11 +62,7 @@ async function main(){
 		rules: await getRules(),
 	};
 
-	browser.storage.onChanged.addListener(async () => {
-		data.rules = await getRules();
-	});
-
-	browser.webRequest.onHeadersReceived.addListener((e)=>{
+	const handler = (e)=>{
 		for(let rule of data.rules){
 			if(testMultipleRegexp(e.documentUrl, ...rule.origins) && testMultipleRegexp(e.url, ...rule.domains)){
 				const frameHeader = find(e.responseHeaders, x => x.name === "x-frame-options" );
@@ -78,7 +86,28 @@ async function main(){
 				return {responseHeaders: e.responseHeaders};
 			};
 		};
-	}, {urls: ["<all_urls>"]}, ["responseHeaders", "blocking"]);
+	}
+
+	browser.storage.onChanged.addListener(async () => {
+		data.rules = await getRules();
+		const filteredDomains = filterTargets(data.rules);
+		if(browser.webRequest.onHeadersReceived.hasListener(handler)){
+			browser.webRequest.onHeadersReceived.removeListener(handler);
+		}
+		if(filteredDomains.length > 0){
+			browser.webRequest.onHeadersReceived.addListener(
+				handler,
+				{urls: filterTargets(data.rules)},
+				["responseHeaders", "blocking"]
+			);
+		}
+	});
+
+	browser.webRequest.onHeadersReceived.addListener(
+		handler,
+		{urls: filterTargets(data.rules)},
+		["responseHeaders", "blocking"]
+	);
 }
 
 main().catch(e => console.error(e));
