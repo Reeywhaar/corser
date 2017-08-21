@@ -88,7 +88,7 @@ async function main(){
 		};
 	}
 
-	browser.storage.onChanged.addListener(async () => {
+	const setRules = async() => {
 		data.rules = await getRules();
 		const filteredDomains = filterTargets(data.rules);
 		if(browser.webRequest.onHeadersReceived.hasListener(handler)){
@@ -101,13 +101,13 @@ async function main(){
 				["responseHeaders", "blocking"]
 			);
 		}
+	}
+
+	browser.storage.onChanged.addListener(async () => {
+		await setRules();
 	});
 
-	browser.webRequest.onHeadersReceived.addListener(
-		handler,
-		{urls: filterTargets(data.rules)},
-		["responseHeaders", "blocking"]
-	);
+	await setRules();
 }
 
 main().catch(e => console.error(e));
