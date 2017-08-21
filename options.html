@@ -24,7 +24,7 @@
 			flex-direction: row;
 			justify-content: flex-end;
 		}
-		.rules-list{
+		.usage-list{
 			list-style-position: outside;
 			margin:0;
 			padding: 10px;
@@ -34,13 +34,16 @@
 			color:rgba(0,0,0,.3);
 			font-size: .8em;
 		}
+		.hidden{
+			display:none;
+		}
 	</style>
 </head>
 <body>
 	<div class="options">
 		<div class="tip">
-			<h3>Usage</h3>
-			<ul class="rules-list">
+			<h3>Usage <button class="usage-visibility-button">Hide</button></h3>
+			<ul class="usage-list">
 				<li>Config must be array of rules separated by newline</li>
 				<li>Each rule is object of two arrays: origins, domains separated by "-"</li>
 				<li>both "origins" and "domains" are arrays of url patterns described at <a href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns">Match Patterns page</a> separated by newline</li>
@@ -62,14 +65,14 @@
 				</li>
 			</ul>
 		</div>
-		<div class="content">
-			<textarea class="rules"></textarea>
-		</div>
-		<div class="actions">
-			<button class="save-button">Save</button>
-		</div>
-		<div class="notification"></div>
 	</div>
+	<div class="content">
+		<textarea class="rules"></textarea>
+	</div>
+	<div class="actions">
+		<button class="save-button">Save</button>
+	</div>
+	<div class="notification"></div>
 	<script src="options.js"></script>
 </body>
 </html>

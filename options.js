@@ -1,11 +1,19 @@
+async function storageGet(key, def = null){
+	const stored = await browser.storage.local.get(key);
+	if(!(key in stored)) return def;
+	return stored[key];
+}
+
+async function storageSet(key, value){
+	await browser.storage.local.set({[key]: value});
+}
+
 async function getRules(){
-	const stored = await browser.storage.local.get("rules");
-	if(!stored.rules) return [];
-	return stored.rules;
+	return await storageGet("rules", []);
 }
 
 async function setRules(rules){
-	await browser.storage.local.set({"rules": rules});
+	await storageSet("rules", rules);
 }
 
 function isPattern(pattern) {
@@ -66,6 +74,26 @@ async function main(){
 			return;
 		}
 	});
+
+	const visibilityButton = document.querySelector(".usage-visibility-button");
+	const usageList = document.querySelector(".usage-list");
+	const visibilityState = await storageGet("usage-visibility", true);
+	visibilityButton.addEventListener("click", async ()=>{
+		if(usageList.classList.contains("hidden")){
+			visibilityButton.innerText = "Hide";
+			usageList.classList.remove("hidden");
+			await storageSet("usage-visibility", true);
+		} else {
+			visibilityButton.innerText = "Show";
+			usageList.classList.add("hidden");
+			await storageSet("usage-visibility", false);
+		}
+	});
+
+	if(visibilityState === false){
+		visibilityButton.innerText = "Show";
+		usageList.classList.add("hidden");
+	}
 }
 
 main().catch(e => console.error(e));
