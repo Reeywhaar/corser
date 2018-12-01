@@ -1,3 +1,5 @@
+![logo](ext/icon.png)
+
 # Corser
 
 Corser WebExtension make it possible to:
@@ -26,10 +28,16 @@ Each URL must conform to [Match Pattern](https://developer.mozilla.org/en-US/Add
 
 If you want another rule just separate it by double newline.
 
-### TODO
-
-* Right now extension was tested only in Firefox. Chrome and Opera in plans.
-
 ### Developing
 
 In order to use you must have `web-ext` binary installed and be familiar with it. All task are described in `makefile`
+
+### Changelog
+
+#### 0.0.15
+
+* fix port escaping in rules. Now "domain:4949" should match
+
+#### 0.0.14...
+
+there were dragons...
