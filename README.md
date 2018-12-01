@@ -1,3 +1,5 @@
+![logo](ext/icon.png)
+
 # Corser
 
 Corser WebExtension make it possible to:
@@ -25,10 +27,6 @@ Then after installing in options page we must paste the following sample config
 Each URL must conform to [Match Pattern](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns)
 
 If you want another rule just separate it by double newline.
-
-### TODO
-
-* Right now extension was tested only in Firefox. Chrome and Opera in plans.
 
 ### Developing
 
