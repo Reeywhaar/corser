@@ -31,3 +31,13 @@ If you want another rule just separate it by double newline.
 ### Developing
 
 In order to use you must have `web-ext` binary installed and be familiar with it. All task are described in `makefile`
+
+### Changelog
+
+#### 0.0.15
+
+* fix port escaping in rules. Now "domain:4949" should match
+
+#### 0.0.14...
+
+there were dragons...
